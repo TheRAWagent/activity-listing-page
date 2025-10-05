@@ -1,50 +1,59 @@
-# Welcome to your Expo app 👋
+# Activity Listing Page
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native / Expo app that displays a list of “activities” (classes, quizzes, assignments, discussions) and lets users view details and take actions (join, submit, etc.).  
 
-## Get started
+The app uses a file-based routing structure with dynamic activity detail pages, and a type-safe model for activities.
 
-1. Install dependencies
+---
 
+## Table of Contents
+
+- [Features](#features)  
+- [Tech Stack](#tech-stack)  
+- [Getting Started](#getting-started)  
+  - [Prerequisites](#prerequisites)  
+  - [Installation](#installation)  
+  - [Running the App](#running-the-app)  
+- [Project Structure](#project-structure)  
+- [Activity Types & Models](#activity-types--models)  
+- [Detail Page Design](#detail-page-design)  
+- [Contributing](#contributing)  
+- [License](#license)  
+
+---
+
+## Features
+
+- Display a list of activities (OnlineClasses, Assignments, Quizzes, Discussions)  
+- Dynamic routing to detail pages for each activity (via `app/[activityId].tsx`)  
+- Conditional rendering of metadata based on activity type (e.g. submission deadline, time, duration, marks)  
+- Action button on detail page (e.g. “Start Class”, “Submit Assignment”, “Take Quiz”, “Join Discussion”)  
+- Type safety with TypeScript union types  
+
+---
+
+## Tech Stack
+
+- **React Native** / **Expo**  
+- **TypeScript**  
+- **Expo Router** (file-based routing)  
+- **Functional Components**, React hooks  
+- Basic styling via `StyleSheet`  
+- (Optional: you can integrate UI libraries in the future, e.g. React Native Paper, Tailwind, etc.)
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16+ recommended)  
+- Yarn or npm  
+- Expo CLI (if using local development)  
+
+### Installation
+
+1. Clone the repo  
    ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   git clone https://github.com/TheRAWagent/activity-listing-page.git
+   cd activity-listing-page
