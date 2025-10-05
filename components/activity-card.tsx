@@ -1,6 +1,6 @@
 import { createStyles } from "@/constants/styles";
 import { Colors } from "@/constants/theme";
-import { Activity } from "@/constants/types";
+import { Activity, Assignment, Discussion, OnlineClass, Quiz } from "@/constants/types";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
@@ -12,16 +12,15 @@ interface ActivityCardProps {
 
 // Helper function to get activity type
 const getActivityType = (activity: Activity): string => {
-  if ("time" in activity && "duration" in activity) {
-    if ("marks" in activity) {
-      return "Quiz";
-    } else if ("submission" in activity) {
-      return "Assignment";
-    } else {
-      return "Online Class";
-    }
-  }
-  return "Discussion";
+  if (activity instanceof OnlineClass) {
+    return "Online Class";
+  } else if (activity instanceof Quiz) {
+    return "Quiz";
+  } else if (activity instanceof Assignment) {
+    return "Assignment"
+  } else if (activity instanceof Discussion) {
+    return "Discussion";
+  } else return "undefined"
 };
 
 // Helper function to get activity type color
@@ -30,16 +29,15 @@ const getActivityTypeColor = (
   colorScheme: "light" | "dark"
 ) => {
   const colors = Colors[colorScheme];
-  if ("time" in activity && "duration" in activity) {
-    if ("marks" in activity) {
-      return colors.quiz;
-    } else if ("submission" in activity) {
-      return colors.assignment;
-    } else {
-      return colors.onlineClass;
-    }
+  if (activity instanceof Quiz) {
+    return colors.quiz;
+  } else if (activity instanceof Assignment) {
+    return colors.assignment;
+  } else if (activity instanceof OnlineClass) {
+    return colors.onlineClass;
+  } else if (activity instanceof Discussion) {
+    return colors.discussion
   }
-  return colors.discussion;
 };
 
 // Helper function to format date
@@ -86,25 +84,25 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     styles.item,
     isWeb && styles.webButton,
     isHovered &&
-      isWeb && {
-        transform: [{ translateY: -2 }],
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        borderColor: colors.primary,
-      },
+    isWeb && {
+      transform: [{ translateY: -2 }],
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      borderColor: colors.primary,
+    },
   ];
 
   const TouchableComponent = isWeb ? View : TouchableOpacity;
   const touchableProps = isWeb
     ? {
-        onMouseEnter: () => setIsHovered(true),
-        onMouseLeave: () => setIsHovered(false),
-        onClick: handlePress,
-      }
+      onMouseEnter: () => setIsHovered(true),
+      onMouseLeave: () => setIsHovered(false),
+      onClick: handlePress,
+    }
     : {
-        onPress: handlePress,
-        activeOpacity: 0.7,
-      };
+      onPress: handlePress,
+      activeOpacity: 0.7,
+    };
 
   return (
     <TouchableComponent style={cardStyle} {...touchableProps}>
@@ -119,10 +117,10 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
 
       <View style={styles.itemMeta}>
         <View>
-          {"time" in activity && (
+          {(activity instanceof OnlineClass || activity instanceof Quiz || activity instanceof Discussion) && (
             <Text style={styles.itemTime}>📅 {formatDate(activity.time)}</Text>
           )}
-          {"submission" in activity && (
+          {activity instanceof Assignment && (
             <Text style={styles.itemSubmission}>
               ⏰ Due: {formatDate(activity.submission)}
             </Text>
@@ -130,12 +128,12 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
         </View>
 
         <View style={{ alignItems: "flex-end" }}>
-          {"duration" in activity && (
+          {(activity instanceof OnlineClass || activity instanceof Quiz || activity instanceof Discussion) && (
             <Text style={styles.itemDuration}>
               ⏱️ {formatDuration(activity.duration)}
             </Text>
           )}
-          {"marks" in activity && (
+          {(activity instanceof Quiz || activity instanceof Assignment) && (
             <Text style={styles.itemMarks}>📊 {activity.marks} marks</Text>
           )}
         </View>

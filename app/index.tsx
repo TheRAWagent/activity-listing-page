@@ -6,7 +6,7 @@ import { WebHeader } from "@/components/web-header";
 import { WebStyles } from "@/components/web-styles";
 import { createStyles } from "@/constants/styles";
 import { Colors } from "@/constants/theme";
-import { activities, Activity } from "@/constants/types";
+import { activities, Activity, Assignment, Discussion, OnlineClass, Quiz } from "@/constants/types";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useMemo, useState } from "react";
@@ -15,16 +15,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // Helper function to get activity type (same as in activity-card.tsx)
 const getActivityType = (activity: Activity): string => {
-  if ("time" in activity && "duration" in activity) {
-    if ("marks" in activity) {
-      return "Quiz";
-    } else if ("submission" in activity) {
-      return "Assignment";
-    } else {
-      return "Online Class";
-    }
-  }
-  return "Discussion";
+  if (activity instanceof OnlineClass) {
+    return "Online Class";
+  } else if (activity instanceof Quiz) {
+    return "Quiz";
+  } else if (activity instanceof Assignment) {
+    return "Assignment"
+  } else if (activity instanceof Discussion) {
+    return "Discussion";
+  } else return "undefined"
 };
 
 const Index = () => {

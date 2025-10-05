@@ -14,9 +14,9 @@ export default function RootLayout() {
   }, [colorScheme])
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        {/* <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} /> */}
-      <Stack screenOptions={{headerShown: false}}>
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name='index' />
+        <Stack.Screen name='[activityId]' />
       </Stack>
     </ThemeProvider>
   );

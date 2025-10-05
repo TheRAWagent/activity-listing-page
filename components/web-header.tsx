@@ -1,6 +1,6 @@
 import { createStyles } from "@/constants/styles";
 import { Colors } from "@/constants/theme";
-import { activities } from "@/constants/types";
+import { activities, Assignment, Discussion, OnlineClass, Quiz } from "@/constants/types";
 import React from "react";
 import { Platform, Text, View } from "react-native";
 
@@ -42,15 +42,15 @@ export const WebHeader: React.FC<WebHeaderProps> = ({ colorScheme }) => {
               'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}
         >
-          📊 {[...activities, ...activities].length} activities • 🎯{" "}
+          📊 {activities.length} activities • 🎯{" "}
           {
-            [...activities, ...activities].filter((a) => "submission" in a)
+            activities.filter((a) => a instanceof Assignment)
               .length
           }{" "}
           assignments • 📚{" "}
           {
             [...activities, ...activities].filter(
-              (a) => "time" in a && "duration" in a && !("marks" in a)
+              (a) => (a instanceof OnlineClass || a instanceof Quiz || a instanceof Discussion) && !(a instanceof Quiz || a instanceof Assignment)
             ).length
           }{" "}
           classes
